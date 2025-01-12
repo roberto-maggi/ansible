@@ -1,0 +1,1 @@
+{"virtualbox":{"/mnt":{"guestpath":"/mnt","hostpath":"/home/rob/GIT/corsi","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/rob/GIT/corsi/ansible/clusters","disabled":false,"__vagrantfile":true}}}

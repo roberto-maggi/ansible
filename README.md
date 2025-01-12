@@ -1,1 +1,0 @@
-Repo ansible appena creato
