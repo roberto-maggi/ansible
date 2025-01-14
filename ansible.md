@@ -1,5 +1,7 @@
 # Ansible !
 
+--> SLIDE 1
+
 ![image info](./imgs/ansible_inv_start.svg)
 
 Ansible e' un sistema di "configuration management", composto da un "control node" che 
@@ -62,6 +64,11 @@ sudo apt update -y && sudo apt install ansible -y
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg_NO
 ```
 
+### YAML
+
+https://docs.fileformat.com/it/programming/yaml/
+
+
 ## Use case
 Abbiamo scritto uno script che configura tre webservers.
 In ansible gli script si chiamano `playbook` e le macchine su cui dobbiamo eseguire i nostri scripts 
@@ -107,7 +114,7 @@ mdkir -p ./ansible/inventory ./ansible/playbooks ./ansible/roles
 
 cat > /etc/ansible/hosts << EOF
 [test]
-remote_host ansible_ssh_host=10.0.012 ansible_ssh_port=22
+remote_host ansible_ssh_host=10.0.0.12 ansible_ssh_port=22
 EOF
 
 --> yaml
