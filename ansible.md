@@ -66,8 +66,140 @@ ansible-config init --disabled -t all > /etc/ansible/ansible.cfg_NO
 
 ### YAML
 
-https://docs.fileformat.com/it/programming/yaml/
+-> Che cos'è un file YAML? 
+Il file YAML è costituito da un linguaggio YAML (YAML Ain’t Markup Language) che è un linguaggio di
+serializzazione dei dati basato su Unicode; utilizzato per i file di configurazione, la messaggistica Internet,
+la persistenza degli oggetti, ecc. YAML utilizza l’estensione .yaml per i suoi file. La sua sintassi è indipendente
+da un linguaggio di programmazione specifico. Fondamentalmente, YAML è progettato per l’interazione umana e per
+funzionare bene con i moderni linguaggi di programmazione. Il supporto per la serializzazione di strutture dati
+native arbitrarie ha aumentato la leggibilità dei file YAML, ma ha reso un po’ complicato il processo di analisi
+e generazione dei file.
 
+--> Breve storia 
+YAML è stato proposto per la prima volta nel 2001 ed è stato sviluppato da Clark Evans, Ingy döt Net e Oren Ben-Kiki.
+Inizialmente si diceva che YAML significasse “Ancora un altro linguaggio di markup” per indicare il suo scopo come
+linguaggio di markup. Successivamente è stato riproposto come “YAML Aint Markup Language” per indicare il suo scopo
+come orientato ai dati.
+
+--> Formato file YAML 
+Il file YAML è costituito dai seguenti tipi di dati
+
+Scalari: gli scalari sono valori come stringhe, numeri interi, booleani, ecc.
+Sequenze: le sequenze sono elenchi con ogni elemento che inizia con un trattino (-). Gli elenchi possono anche essere nidificati.
+Mappatura: la mappatura offre la possibilità di elencare chiavi con valori.
+
+--> Sintassi 
+Spazi bianchi: il rientro degli spazi bianchi viene utilizzato per indicare l’annidamento e la struttura generale.
+```
+nome: John Smith
+contatto:
+casa: 1012355532
+ufficio: 5002586256
+indirizzo:
+strada: |
+123 vicolo Tornado
+Suite 16
+città: East Centerville
+stato: KS
+```
+
+Commenti: i commenti vengono scritti iniziando con il simbolo “#”.
+```
+# Questo è un commento YAML
+```
+
+Elenchi: il trattino (-) viene utilizzato per indicare i membri dell’elenco con ciascun membro su una riga separata.
+I membri dell’elenco possono anche essere racchiusi tra parentesi quadre ([…]) con i membri separati da virgole (,).
+```
+  - A
+  - B
+  - C
+```
+```
+[A, B, C]
+```
+Matrice associativa: una matrice associativa è racchiusa tra parentesi graffe ({…}).
+Le chiavi e i valori sono separati da due punti(:) e ogni coppia è separata da virgola (,).
+```
+{name: John Smith, age: 20}
+```
+Stringhe: la stringa può essere scritta con o senza virgolette doppie (") o virgolette singole (’).
+```
+Esempio di stringa
+"Stringa campione"
+'Stringa campione'
+```
+Contenuto del blocco scalare: il contenuto scalare può essere scritto in notazione a blocchi utilizzando quanto segue:
+      - |: All live breaks are significant.
+      - >: Each line break is folded to space. It removes the leading whitespace for each line.
+```
+```
+Documenti multipli: più documenti sono separati da tre trattini (—) in un unico flusso.
+I trattini indicano l’inizio del documento. I trattini vengono utilizzati anche per separare le direttive dal contenuto del documento.
+La fine del documento è indicata da tre punti (…).
+```
+  ---
+Documento 1
+  ---
+Documento 2
+...
+```
+Tipo: per specificare il tipo di valore, vengono utilizzati i doppi punti esclamativi (!!).
+```
+a: !! galleggiante 123
+b: !!str 123
+```
+Tag: per assegnare un tag a una nota, viene utilizzata una e commerciale (&) e per fare riferimento a quel nodo, viene utilizzato un asterisco (*).
+```
+nome: John Smith
+fattura a: &id01
+strada: |
+123 vicolo Tornado
+Suite 16
+città: East Centerville
+stato: KS
+
+spedizione a: *id01
+```
+
+Direttive: i documenti YAML possono essere preceduti da direttive in un flusso.
+Le direttive iniziano con un segno di percentuale (%) seguito dal nome e poi dai parametri separati da spazi.
+
+```
+%YAML 1.2
+  ---
+Contenuto del documento
+```
+
+Esempio di file YAML 
+Qui puoi vedere un esempio di file yaml docker di seguito:
+
+```
+topology:
+database_node_name: docker_controller
+docker_controller_node_name: docker_controller
+self_service_portal_node_name: docker_controller
+kvm_compute_node_names: kvm_compute1
+docker_compute_node_names: docker_compute1
+```
+
+
+--> YAML vs JSON 
+Fondamentalmente, sia JSON che YAML sono sviluppati per fornire un formato di interscambio di dati leggibile dall’uomo.
+YAML è realizzato come un superset del formato JSON.
+Significa che possiamo analizzare JSON usando un parser YAML.
+Sebbene l’implementazione pratica di questa teoria sia poco complicata.
+Pertanto, alcune differenze di base tra YAML e JSON sono riportate di seguito:
+
+|YAML	 | JSON |
+| :--- | :--- |
+|Processo complesso e dispendioso in termini di tempo per l’analisi dei dati serializzati	| Analizza i dati serializzati JSON in modo rapido e semplice grazie al suo design più semplice
+|Meno supporto della comunità	| Supporto e popolarità della community più ampia |
+|Supporta i commenti |	Non supporta i commenti |
+|Possibilità di utilizzare il riferimento di altri oggetti di dati | 	Impossibile serializzare strutture complesse con riferimenti a oggetti |
+|La gerarchia è indicata utilizzando caratteri a doppio spazio. I caratteri di tabulazione non sono consentiti |	Gli oggetti e gli array sono indicati tra parentesi graffe e parentesi quadre. |
+|Le virgolette delle stringhe sono facoltative ma supportano le virgolette singole e doppie. | Le stringhe devono essere racchiuse tra virgolette doppie. |
+|Il nodo radice può essere uno qualsiasi dei tipi di dati validi |	Il nodo radice deve essere un array o un oggetto |
 
 ## Use case
 Abbiamo scritto uno script che configura tre webservers.
@@ -170,6 +302,10 @@ datacenter:
 Testiamo la nostra configurazione:
 `ansible test -i /etc/ansible/hosts -m ping -vvvvv`
 
+LAB!! 
+
+--> scrivere un inventory con notazione yaml della macchina remota
+con tre diverse notazioni ( ma stesso IP ) webserver, db e fileserver 
 
 ## Organizzazione di un Delivery tramite il File ansible.cfg
 Il file ansible.cfg è uno degli elementi centrali per configurare e organizzare un delivery efficace con Ansible. È un file di configurazione che consente di personalizzare e ottimizzare il comportamento di Ansible durante l'esecuzione dei playbook e delle attività automatizzate. La sua corretta configurazione è fondamentale per gestire ambienti complessi e migliorare l'efficienza operativa.
@@ -294,6 +430,7 @@ webservers:
 ```
 
 ## I playbooks
+
 ### Hello world
 
 ```
@@ -313,6 +450,115 @@ cat >
 ansible-playbook -i inventory.ini playbook.yaml
 ```
 
+LAB!!
+--> scrivi un playbook che pinghi un host remoto e uno che stampi a 
+    monitor un messaggio a tua scelta
+
+## I moduli
+LAB!
+scrivi un plabook con un task per ogni modulo spiegato finora.
+
+## Loop e Condizionali
+LAB!
+scrivi un playbook che cicli in base a delle discriminanti
+
+## Roles
+La documentazione ufficiale definisce i ruoli come “Un modo di caricare automaticamente certi file di variabili, task e handlers, basandosi su una precisa struttura di dati”, facendo forza sulla possibilità di chiamare indirettamente da un singolo playbook, altri insiemi di playbook già definiti, con relativi file, dipendenze e contenuti correlati.
+
+Se immaginiamo per esempio di dover aggiornare un applicativo web su più nodi contemporaneamente, oltre ovviamente a poter effettuare manualmente la procedure di deploy “come si è sempre fatto” oppure scrivere da zero il flusso di automazione per effettuarlo, possiamo prima cercare se esiste già un ruolo scritto che soddisfa i nostri requisiti.
+
+Installando Ansible viene scaricato anche il tool ansible-galaxy, tramite il quale è possibile sia inizializzare le directory dei nuovi ruoli, sia cercare e scaricare ruoli ufficiali o forniti dalla community presenti sul repository pubblico. Nello snippet d’esempio seguente, cerchiamo ed installiamo un ruolo per installare Samba:
+```
+[ansible@cos1 roles]$ ansible-galaxy search samba | grep geerling
+ geerlingguy.samba                        Samba for RHEL/CentOS.
+
+[ansible@cos1 roles]$ ansible-galaxy install geerlingguy.samba
+- downloading role 'samba', owned by geerlingguy
+- downloading role from https://github.com/geerlingguy/ansible-role-samba/archive/1.1.3.tar.gz
+- extracting geerlingguy.samba to /home/ansible/.ansible/roles/geerlingguy.samba
+- geerlingguy.samba (1.1.3) was installed successfully
+```
+
+Con questo approccio possiamo evitare di riscrivere grosse porzioni di codice complicato per eseguire compiti semplici. Teniamo a mente che è comuque buona prassi rivedere sempre il codice prima di utilizzarlo all’interno dei nostri progetti in quanto l’approccio dell’utente che l’ ha creato potrebbe essere molto diverso da quello al quale siamo abituati.
+
+Analizziamo un semplice playbook per comprendere il concetto chiave della chiamata ad un ruolo. Prendiamo come esempio questa brevissima sezione di codice relativa ad un main.yml che funge da entrypoint per il riutilizzo di cui sopra, il quale utilizza la sintassi “classica” attraverso la keyword roles:
+
+```
+---
+- hosts: webservers
+  vars: service=httpd
+  roles:
+    - ruolo_esempio
+```
+
+Questo snippet, per il ruolo_esempio designato:
+
+Si limita a definire gli host sui quali eseguire i ruoli
+Chiama indirettamente il file ./ruolo_esempio/tasks/main.yml
+Definisce la variabile “service” che verrà passata al ruolo caricato
+Così facendo si avvia anche l’esecuzione di ogni handler legato al ruolo, che sia definito nel playbook caricato tra i tasks, o comunque presente nella specifica sottodirectory del ruolo. Si include ogni variabile, si carica ogni eventuale dipendenza, si validano tutte le referenze legate a files, template e tasks.
+
+Notiamo che la direttiva “service” definita a monte verrà ereditata così come ogni altra variabile, seguendo le regole di erediterietà e overriding classiche dello strumento Ansible.
+
+Teniamo inoltre presente che, utilizzando il sistema dei ruoli, diviene ancor più utile un flow-control minuzioso… “pre_tasks” e “post_tasks”, al fine di orchestrare l’esecuzione nel suo insieme. Eseguendo compiti rispettivamente prima e dopo i ruoli richiamati.
+
+La struttura della cartella nella quale è inserito il playbook è il primo posto in cui Ansible cercherà di risolvere i riferimenti a contenuti esterni. Per predisporre questa directory ci viene in aiuto il comando ansible-galaxy.
+
+#ansible-galaxy init ruolo_esempio
+Esplodiamo la directory corrente per spiegare nel dettaglio come richiamare del codice già definito:
+```
+ansible@cos1 roles]$ tree
+├── main.yml
+└── ruolo_esempio
+    ├── defaults
+    │   └── main.yml
+    ├── files
+    ├── handlers
+    │   └── main.yml
+    ├── meta
+    │   └── main.yml
+    ├── README.md
+    ├── tasks
+    │   └── main.yml
+    ├── templates
+    ├── tests
+    │   ├── inventory
+    │   └── test.yml
+    └── vars
+        └── main.yml
+```
+Possiamo notare che alla radice della cartella vi è un file main.yml, la cui sintassi chiama il file ./ruolo_esempio/tasks/main.yml attraverso il tag specifico “roles”. L’utilizzo di questo tag è il cuore del presente tutorial:
+```
+--- 
+ hosts: thiscomputer
+ become: true
+ roles:
+   - ruolo_esempio
+Riporto il contenuto del file richiamato:
+
+---
+    - name: Playbook evocato dal primo main
+      yum:
+        name: "{{ service }}"
+        state: present
+```
+Del quale osserviamo l’esecuzione attraverso il lancio del solo main.yml presente nella directory radice:
+```
+[ansible@cos1 roles]$ ansible-playbook main.yml
+ 
+PLAY [thiscomputer] ******************************************************************************
+TASK [Gathering Facts] ******************************************************************************
+ok: [thiscomputer]
+ 
+TASK [test2 : Playbook evocato dal primo main] ******************************************************************************
+ok: [thiscomputer]
+ 
+PLAY RECAP ******************************************************************************
+thiscomputer: ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
+Questo meccanismo, unito alla potenza del repository di ruoli ansible-galaxy, permette un forte riutilizzo del codice, venendoci in aiuto non solo nella definizione di automazione complesse, ma facendoci anche risparmiare molto tempo.
+
+Valutiamo di contribuire al lavoro della community su Galaxy, così come noi possiamo beneficiare dello sforzo degli utenti, qualcuno potrebbe aver bisogno proprio del contenuti su cui stiamo lavorando.
 
 
 
