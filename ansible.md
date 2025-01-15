@@ -458,6 +458,11 @@ LAB!!
 LAB!
 scrivi un plabook con un task per ogni modulo spiegato finora.
 
+## task handlers
+
+Gli Handlers sono istruzioni che vanno eseguite come conseguenza di una determinata azione. Ad esempio dopo l’installazione di una applicazione potremmo voler avviare il servizio.
+I Playbook sono insiemi di Tasks e Handlers. Un esempio di playbook potrebbe essere quello per l’installazione e la configurazione di un sistema Apache, php e mysql, che comprende vari step da eseguire in sequenza.
+
 ## Loop e Condizionali
 LAB!
 scrivi un playbook che cicli in base a delle discriminanti
