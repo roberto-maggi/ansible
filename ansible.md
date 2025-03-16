@@ -247,6 +247,7 @@ mdkir -p ./ansible/inventory ./ansible/playbooks ./ansible/roles
 cat > /etc/ansible/hosts << EOF
 [test]
 remote_host ansible_ssh_host=10.0.0.12 ansible_ssh_port=22
+pippo 10.0.0.10
 EOF
 
 --> yaml
